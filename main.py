@@ -26,7 +26,13 @@ class App:
                 # NOTE: Maybe name could be an arbitrary name
                 static_dir = static_dir.removeprefix("/")
             self._fast_api_app.mount("/" + static_dir, StaticFiles(directory=static_dir), name=static_dir)
+        
+        @self._fast_api_app.get("/")
+        async def root():
+            return {"hello": "root"}
 
+        # the rest could be done the same way
+            
 
 class Item(BaseModel):
     name: str
@@ -44,8 +50,8 @@ async def read_root() -> dict[str, str]:
     return {"hello": "world"} 
 
 
-@app.get("/html", response_class=HTMLResponse)
-async def read_html(request: Request):
+@app.get("/html/{id}", response_class=HTMLResponse)
+async def read_html(request: Request, id: str):
     """_summary_
     Args:
         request (Request): _description_
@@ -53,7 +59,13 @@ async def read_html(request: Request):
         _type_: _description_
     """
     return templates.TemplateResponse(
-        request=request, name="index.html", context={},
+        request=request, name="index.html", context={"id": id},
+        headers={
+            "Cache-Control": "no-cache, no-store, must-revalidate",
+            "Pragma": "no-cache",
+            "Expires": "0",
+            "content-type": "text/html",
+        }
     )
 
 
