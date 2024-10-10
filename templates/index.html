@@ -3,22 +3,56 @@
 
 <head>
     <meta charset="utf-8">
-    <script src="/static/js/script.js"></script>
+    <!-- type is necessary because it allows auto-reload -->
+     <!-- TODO: add link -->
+    <script type="text/javascript" src="/static/js/script.js"></script>
+    <script type="text/javascript" src="/static/js/operators.js"></script>
+    <script type="text/javascript" src="/static/js/objects.js"></script>
+    <script type="text/javascript" src="/static/js/functions.js"></script>
+    <script type="text/javascript" src="/static/js/closures.js"></script>
+    <!-- lib scripts -->
+    <script type="text/javascript" src="/static/js/lib/script2.js"></script>
+    <script type="text/javascript" src="/static/js/lib/script1.js"></script>
+    <script type="text/javascript" src="/static/js/lib/app.js"></script>
+
+    <!-- assignment -->
+    <script type="text/javascript" src="/static/js/assignment/SpeakHello.js"></script>
+    <script type="text/javascript" src="/static/js/assignment/SpeakGoodBye.js"></script>
+    <script type="text/javascript" src="/static/js/assignment/script.js"></script>
+
     <script>
         helloWorld();
+        // someFunc();
         console.log("result: ", compare(12, 34));
         console.log("result: ", compare("hello", "world"));
         console.log(x);
+
+        var newObject = getObject();
+        console.log(newObject);
+
+        // execute the loop
+        loop(1024);
+
+        // should assert
+        loop(-1, "cannot loop over negative numbers");
     </script>
 </head>
 
 <body>
-    <h1> Hello From HTML </h1>
+    <h1>Hello From HTML</h1>
+    <h2>Item id: {{ id }}</h2>
     <!-- could be in the body tag as well -->
     <script>
         console.log("x: %d", x);
         printGlobalVar();
+        // TODO: factorial is not defined for some reason
+        console.log("factorial(5): %d", factorial(5));
+        console.log(newObject);
     </script>
+    <ul>
+        <li>This is the first thing</li>
+        <li>This is the second thing</li>
+    </ul>
 </body>
 
 </html>
