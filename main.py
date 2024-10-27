@@ -115,6 +115,7 @@ async def assignment_add_elements(req: Request):
         request=req, name="adding_elements.html", 
         context={
             "Title": "Adding Elements",
+            "SectionHeading": "My custom section heading",
         },
     )
 
