@@ -39,6 +39,9 @@
             <li class="list-item">Item 3 (changed)!</li>
         </ul>
     </section>
+    <button style="background-color: burlywood; color:chocolate;">
+        Toggle visibility
+    </button>
     <script>
         function solve() {
             console.log("solving...");
@@ -107,17 +110,30 @@
             console.log("inside operateOnSection();");
             // selecting the section
             const section = document.querySelector("section");
-            const prevBgColor = section.style.backgroundColor; 
+            const prevStyle = section.style; 
+
             section.style.backgroundColor = "blue";
-            section.style.color = prevBgColor;
 
             // reset everything
             section.className = "";
+
+            section.style = prevStyle; 
         }
 
         console.log("before calling operateOnSection();");
         operateOnSection();
         console.log("after calling operateOnSection();");
+
+        function selectButton() {
+            console.log("before selecting button");
+            const button = document.querySelector("button");
+
+            button.addEventListener('click', () => {
+                console.log("on button clicked");
+            });
+        }
+
+        selectButton();
     </script>
 </body>
 
