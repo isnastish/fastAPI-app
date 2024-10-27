@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<!-- html head -->
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title> {{Title}} </title>
+</head>
+
+<!-- html main body -->
+
+<body>
+    <h1 id="main-title" style="color: white; background-color: black;">Goal</h1>
+    <p>
+        <em>some text is here surrounded by em tag</em>
+        And this is the raw text.
+    </p>
+    <ul>
+        <li>Item 1</li>
+        <li class="list-item">Item 2</li>
+        <li class="list-item">Item 3 (changed)!</li>
+    </ul>
+    <script>
+        function solve() {
+            console.log("solving...");
+            const h1Tag = document.querySelector("h1");
+
+            console.log(h1Tag);
+            console.log("text content: " + h1Tag.textContent);
+
+            h1Tag.textContent = "Setup new goal!";
+            console.log("text context after it has been changed: " + h1Tag.textContent);
+        }
+
+        console.log("before calling solve() func;");
+        solve();
+        console.log("after calling solve() func;");
+    </script>
+</body>
+
+</html>

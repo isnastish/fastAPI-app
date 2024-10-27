@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <!-- At this point 'title' is not defined yet -->
+    <!-- NOTE: defer keyword postpones the execution of a script until later -->
 </head>
 
 <body>
@@ -15,13 +15,23 @@
         <button>Say it!</button>
     </p>
 
-    <div id="content"></div>
+    <ul>
+        <li>Item 1</li>
+        <li class="list-item">This is an item number 2</li>
+        <li class="list-item">Item 3</li>
+        <li class="list-item">Item 4</li>
+    </ul>
 
+    <h1 id="testing">Testing</h1>
+    <h2 id="element">This is some element</h2>
     <script type="text/javascript" src="/static/js/project/script.js"></script>
 
+    <div id="content"></div>
+
     <script>
-        sayHello();
+        console.log("before parsing html file");
+        parseHtmlFile();
+        console.log("after parsing html file");
     </script>
 </body>
-
 </html>
