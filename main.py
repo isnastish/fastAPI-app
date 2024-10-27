@@ -1,6 +1,6 @@
 import time
-import sqlite3
-from pathlib import Path
+# import sqlite3
+# from pathlib import Path
 from typing import Optional, TypedDict, TYPE_CHECKING
 
 from fastapi import FastAPI, Request
@@ -11,9 +11,8 @@ from pydantic import BaseModel
 
 from loguru import logger
 
-if TYPE_CHECKING:
-    from sqlite3 import Connection, Cursor
-
+# if TYPE_CHECKING:
+#     from sqlite3 import Connection, Cursor
 
 app = FastAPI(
     debug=True,
@@ -25,62 +24,9 @@ templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
-class HttpCacheDict(TypedDict):
-    path: str
-    method: str 
-    timestamp: int
-
-    
-# NOTE: This class has to be moved to the server
-class HTTPCache:
-    """Cache for http requests"""
-
-    def __init__(self) -> None:
-        cache_file = Path("storage-cache.sqlite")
-        self.conn: "Connection" = sqlite3.connect(
-            cache_file.as_posix(), 
-            isolation_level=None,
-        )
-
-        # Create an sql file locally, on disc
-        self.conn.execute(
-            """CREATE TABLE IF NOT EXISTS http_cache (
-                id INTEGER PRIMARY KEY,
-                path TEXT,
-                method VARCHAR(32),
-                timestamp INTEGER
-            )
-            """
-        )
-
-        # TODO: Figure out why do we have to create an index
-        # CREATE INDEX IF NOT EXISTS idx_timestamp ON cache (timestamp)
-    
-    def add(self, path: str, method: str) -> None:
-        timestamp = int(time.time())
-        self.conn.execute(
-            "INSERT OR REPLACE INTO http_cache (path, method, timestamp) VALUES (?, ?, ?)", (path, method, timestamp),
-        )
-    
-    def get_all(self) -> HttpCacheDict: 
-        cursor: "Cursor" = self.conn.execute(
-            "SELECT path, method, timestamp FROM http_cache"
-        )
-        row = cursor.fetchone()
-        _ = row
-
-        return HttpCacheDict()
-
-
-cache = HTTPCache()
-
 @app.middleware("http")
 async def app_middleware(request: Request, call_next):
     logger.debug("middleware function is executed")
-
-    # cache HTTP request
-    cache.add(str(request.url), request.method)
-    # cache.get_all()
 
     start_time = time.perf_counter()
     response = await call_next(request)
@@ -138,6 +84,41 @@ async def read_project(request: Request):
         }
     )
     
+@app.get("/assignments/dom-selection", response_class=HTMLResponse)
+async def parse_dom_endpoint(request: Request):
+    logger.debug({"method": request.method, "base_url": request.base_url})
+    return templates.TemplateResponse(
+        request=request, name="selecting_dom_elements.html", context={
+            "Title": "Exercise for selecting DOM elements"
+        }
+    )
+
+@app.get("/assignments/dom-manipulation", response_class=HTMLResponse)
+async def dom_manipulation_assignment_endpoint(request: Request):
+    logger.debug({"method": request.method, "base_url": request.base_url}) 
+
+    title = "Assignment - DOM Querying & Manipulation"
+
+    return templates.TemplateResponse(
+        request=request, name="dom_index.html", 
+        context={
+            "Title": title,
+        },
+    )
+
+
+@app.get("/assignments/adding-elements", response_class=HTMLResponse)
+async def assignment_add_elements(req: Request):
+    logger.debug({"method": req.method, "base_url": req.base_url}) 
+
+    return templates.TemplateResponse(
+        request=req, name="adding_elements.html", 
+        context={
+            "Title": "Adding Elements",
+            "SectionHeading": "My custom section heading",
+        },
+    )
+
 
 @app.get("/html/{id}", response_class=HTMLResponse)
 async def read_html(request: Request, id: str):

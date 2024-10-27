@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<!-- html head -->
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title> {{Title}} </title>
+    <style>
+        .red-bg {
+            background-color:bisque;
+            color: brown;
+        }
+
+        .visible {
+            display: block;
+        }
+
+        .invisible {
+            display: none;
+        }
+    </style>
+</head>
+
+<!-- html main body -->
+
+<body>
+    <h1 id="main-title" style="color: white; background-color: black;">Goal</h1>
+    <section class="red-bg">
+        <h2> {{SectionHeading}} </h2>
+        <p>
+            <em>some text is here surrounded by em tag</em>
+            And this is the raw text.
+        </p>
+        <ul style="white-space: pre;">
+            <li>Item 1</li>
+            <li class="list-item">Item 2</li>
+            <li class="list-item">Item 3 (changed)!</li>
+        </ul>
+    </section>
+    <script>
+        function solve() {
+            console.log("solving...");
+            const h1Tag = document.querySelector("h1");
+
+            console.log(h1Tag);
+            console.log("text content: " + h1Tag.textContent);
+
+            h1Tag.textContent = "Setup new goal!";
+            console.log("text context after it has been changed: " + h1Tag.textContent);
+
+            // query list-item
+            // which is a class name
+            // ul tag has children, which are three li nodes
+            const listItem = document.querySelector(".list-item");
+            console.log(listItem);
+
+            const ulTag = document.querySelector("ul");
+            console.log(ulTag.children);
+
+            const item1 = ulTag.children.item(1);
+            console.log(item1);
+            console.log("item's text content: " + item1.textContent);
+
+            // changing text content 
+            item1.textContent = "New item2 content";
+            console.log("updated text content: " + item1.textContent);
+
+            // access children by subscript
+            console.log(item1.children[2]);
+
+            // access parent node
+            const parent = ulTag.parentNode;
+            console.log(parent);
+
+            // get child node of the p tag
+            const pTag = document.querySelector("p");
+            const children = pTag.children;
+            const emChild = children.item(0);
+
+            console.log("em text content: " + emChild.textContent);
+
+            // select element, selects the first element 
+            const liFirst = document.querySelector("li");
+            console.log(liFirst);
+
+            // selecting parent element
+            const ulNode = liFirst.parentNode;
+            const closestBodyElement = liFirst.closest("body");
+
+            console.log(closestBodyElement);
+
+            // selecting sibling elements 
+            // <p> tag
+            const pSibling = ulTag.previousSibling;
+            console.log(pSibling.textContent);
+            // next sibling is a script
+            const nextSibling = ulTag.nextSibling;
+        }
+
+        console.log("before calling solve() func;");
+        solve();
+        console.log("after calling solve() func;");
+
+        function operateOnSection() {
+            console.log("inside operateOnSection();");
+            // selecting the section
+            const section = document.querySelector("section");
+            const prevBgColor = section.style.backgroundColor; 
+            section.style.backgroundColor = "blue";
+            section.style.color = prevBgColor;
+
+            // reset everything
+            section.className = "";
+        }
+
+        console.log("before calling operateOnSection();");
+        operateOnSection();
+        console.log("after calling operateOnSection();");
+    </script>
+</body>
+
+</html>
