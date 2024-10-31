@@ -10,6 +10,7 @@ aiohttp = "*"
 yarl = "*"
 loguru = "*"
 jinja2 = "*"
+sqlmodel = "*"
 
 [dev-packages]
 

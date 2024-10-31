@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title> <em>Time to practice</em> </title>
+    <style>
+        .red-bg {
+            background-color: bisque;
+            color: brown;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Goals</h1>
+    <ul>
+        <!-- li tags should be added here -->
+    </ul>
+
+    <ol>
+        <li class="list-item">First list item</li>
+    </ol>
+
+    <script>
+        function doAssignment() {
+            console.log("doAssignment() is invoked");
+            const ul = document.querySelector("ul");
+
+            // create first li element
+            const firstLi = document.createElement("li");
+            firstLi.textContent = "Learn JavaScript";
+
+            // create second li element
+            const secondLi = document.createElement("li");
+            secondLi.textContent = "Master JavaScript";
+
+            ul.appendChild(firstLi);
+            ul.appendChild(secondLi);
+
+            const lastChild = ul.lastElementChild;
+            console.log(lastChild); 
+
+            const ol = document.querySelector("ol"); 
+
+            const firstOl = document.createElement("li");
+            firstOl.textContent = "Second list item";
+
+            const secondOl = document.createElement("li");
+            secondOl.textContent = "Third list item";
+
+            ol.appendChild(firstOl);
+            ol.appendChild(secondOl);
+
+            const newOlNode = secondOl.cloneNode(true);
+            console.log(newOlNode);
+
+            // live node list vs non-live node list
+            const listItems = document.querySelectorAll("li");
+            console.log(listItems);
+
+            listItems.item(0).textContent = "New text content";
+            
+            // removing the entire list
+            const entireList = document.querySelector("ul");
+            console.log(entireList);
+
+            // removes the list from the dom, internet explorer doesn't support this method
+            entireList.remove();
+
+            // we can access the parent and then add call removeChild() on the parent node 
+        }
+
+        doAssignment();
+    </script>
+</body>
+
+</html>

@@ -9,7 +9,7 @@
     <title> {{Title}} </title>
     <style>
         .red-bg {
-            background-color:bisque;
+            background-color: bisque;
             color: brown;
         }
 
@@ -39,6 +39,18 @@
             <li class="list-item">Item 3 (changed)!</li>
         </ul>
     </section>
+    <button style="background-color: burlywood; color:chocolate;">
+        Toggle visibility
+    </button>
+
+    <button class="custom-button" style="background-color: aquamarine; color:darkgoldenrod">
+        Custom Button
+    </button>
+
+    <div>
+        <input type="text" value="default input" />
+    </div>
+
     <script>
         function solve() {
             console.log("solving...");
@@ -107,17 +119,95 @@
             console.log("inside operateOnSection();");
             // selecting the section
             const section = document.querySelector("section");
-            const prevBgColor = section.style.backgroundColor; 
+            const prevStyle = section.style;
+
             section.style.backgroundColor = "blue";
-            section.style.color = prevBgColor;
 
             // reset everything
             section.className = "";
+
+            section.style = prevStyle;
         }
 
         console.log("before calling operateOnSection();");
         operateOnSection();
         console.log("after calling operateOnSection();");
+
+        var counter = 0;
+
+        function selectButton() {
+            console.log("before selecting button");
+
+            const button = document.querySelector("button");
+            const section = document.querySelector("section");
+
+            const button2 = document.querySelector(".custom-button");
+            console.log(button2.textContent);
+
+            button.addEventListener('click', () => {
+                console.log("on button clicked");
+
+                if (section.className === "red-bg visible") {
+                    console.log("switching to invisible");
+                    section.className = "red-bg invisible";
+                } else {
+                    console.log("switching to visible");
+                    section.className = "red-bg visible";
+                }
+
+                button.textContent = "counter: " + counter;
+                counter++;
+
+                // we could use classList object instead
+                if (section.classList.contains("visible")) {
+                    console.log("contains visible class");
+                } else if (section.classList.contains("invisible")) {
+                    console.log("contains invisible class");
+                }
+            });
+
+            // add event listener for button 2
+            button2.addEventListener('click', () => {
+                console.log("button2 clicked");
+                // toggle between visible and invisible style using 
+                // classList
+                section.classList.toggle("invisible");
+            });
+        }
+        selectButton();
+
+        function creatingElements() {
+            const section = document.querySelector("section");
+            // section.innerHTML = "<h2>A new title</h2>";
+            const ul = document.querySelector("ul");
+            ul.innerHTML = ul.innerHTML + "<li class='list-item'> New item 4</li>";
+
+            const div = document.querySelector("div");
+            console.log(div.innerHTML);
+
+            div.innerHTML = div.innerHTML + "<p>this is a p tag</p>";
+            console.log(div.innerHTML);
+
+            div.insertAdjacentHTML("beforeend", "<p>Something went wrong!</p>");
+
+            const p = div.querySelector("p");
+            p.textContent = "another text content";
+            
+            console.log(p.textContent);
+
+            const newLi = document.createElement("li");
+            newLi.textContent = "Newly added item 5";
+            newLi.style.backgroundColor = "orange";
+            newLi.style.color = "white";
+
+            const list = document.querySelector("ul");
+            list.appendChild(newLi);
+        }
+
+        console.log("before calling creatingElements()");
+        creatingElements();
+        console.log("after calling creatingElements()");
+
     </script>
 </body>
 
