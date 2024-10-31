@@ -9,6 +9,9 @@ from starlette.templating import Jinja2Templates
 from starlette.staticfiles import StaticFiles
 from pydantic import BaseModel 
 
+# unused import
+from sqlmodel import Field
+
 from loguru import logger
 
 # if TYPE_CHECKING:
@@ -23,6 +26,9 @@ templates = Jinja2Templates(directory="templates")
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
+# app.mount("/static/assets", StaticFiles(directory="static"), name="static")
+# TODO(al): Group assignments into its own blueprint and lessons as well, 
+# then bind those blueprints to the main class 
 
 @app.middleware("http")
 async def app_middleware(request: Request, call_next):
@@ -83,6 +89,45 @@ async def read_project(request: Request):
             "content-type": "text/html",
         }
     )
+
+###########################################################
+# Render assignment
+###########################################################
+@app.get("/project/index", )
+async def render_project_home_page(request: Request):
+    return templates.TemplateResponse(
+        request=request, name="app/index.html", context={},
+        headers={
+            'Content-Type': 'text/html',
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '0'
+        }
+    )
+
+
+@app.get("/lessons/create-element", response_class=HTMLResponse)
+async def lessons_create_or_insert_element(req: Request):
+    logger.debug({"method": req.method, "base_url": req.base_url})
+    title: str = "Creating or Inserting HTML elements"
+
+    return templates.TemplateResponse(
+        request=req, name="create_or_insert_element.html",
+        context={
+            "Title": title, 
+            "H1Tag": title, 
+        }
+    )
+     
+@app.get("/assignments/add-element", response_class=HTMLResponse)
+async def assignments_add_element(req: Request):
+    logger.debug({"method": req.method, "base_url": req.base_url})
+
+    return templates.TemplateResponse(
+        request=req, name="assignment_adding_elements.html",
+        context={}
+    )
+
     
 @app.get("/assignments/dom-selection", response_class=HTMLResponse)
 async def parse_dom_endpoint(request: Request):
@@ -151,7 +196,6 @@ async def read_item(item_id: int, query: str | None = None):
     Args:
         item_id (int): _description_
         query (str | None, optional): _description_. Defaults to None.
-
     Returns:
         _type_: _description_
     """
